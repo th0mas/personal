@@ -11,25 +11,32 @@
 </div>
 <div class="container">
 <div class="divider"></div>
-<div class="section">
+</div>
+<div class="section green">
+<div class="container">
 <div class="row">
   <div class="col s12 m12 l6">
     <h3 style="font-weight:300">Me.</h3>
-    <p>16. Student who makes stuff on the internet. Most of my projects are used to improve
-    my skills, so aren't fully rounded.</p>
-    <p>Have a poke, and look at my GitHub</p>
+    <p>16. Good at python, make webapps in Flask.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis
+      magna ultricies sodales commodo. Aenean imperdiet ac risus nec tincidunt. Etiam tempus a enim at accumsan.
+      Quisque eget ligula eget augue iaculis convallis ac a lectus. Duis malesuada quam non tortor accumsan,
+      quis pretium dui sagittis. Fusce non magna id ipsum rutrum volutpat. Duis vitae condimentum quam.
+      Cras pellentesque nulla massa, in auctor lectus molestie egestas.</p>
   </div>
   <div class="col s12 m12 l6">
     <div class="card">
       <div class="card-content">
         <div class="card-title">My GitHub</div>
-        Github list will go here. Possibly using JS (gasp)
+        <div class="collection"><div class="progress"><div class="indeterminate"></div></div></div>
       </div>
     </div>
   </div>
   </div>
 </div>
+</div>
 {% if post %}
+<div class="container">
 <div class="divider"></div>
 <div class="section">
   <div class="row">
@@ -39,6 +46,22 @@
   </div>
   </div>
  </div>
+ </div>
  {% endif %}
-</div>
+
+ <script>
+$(function (){
+  $.get("/api/v1/github/get_recent_repos/",
+  function( data ){ gitub_repos(data); },
+  "json");
+
+})
+
+function gitub_repos(data){
+  $(".progress").remove();
+  for (item in data){
+    $(".collection").append("<a href=" + data[item].url + " class='black-text card-item collection-item'>" + data[item].name + "</a>");
+  }
+}
+ </script>
 {% endblock %}

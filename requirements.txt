@@ -8,3 +8,6 @@ requests
 gunicorn
 flask-sqlalchemy
 python-coveralls
+PyGithub
+redis
+hiredis
