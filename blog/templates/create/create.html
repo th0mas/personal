@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+{% endblock %}
+
+{% block content %}
+<div class="section">
+  <div class="container">
+    <h1>Hello!</h1>
+      <form method="POST">
+        {{ create_form.hidden_tag() }}
+        <div class="row">
+          <div class="col s12 m6">
+            {{ create_form.title() }}
+          </div>
+          <div class="col s12 m6">
+            {{ create_form.tags() }}
+          </div>
+        </div>
+        <div class="row">
+          {{ create_form.post() }}
+        </div>
+        <button type="submit" class="waves-effect waves-light btn">Submit</button>
+      </form>
+  </div>
+</div>
+
+
+
+<script>
+  tinymce.init({
+    selector: 'textarea',
+    height: 500,
+    plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table contextmenu paste code'
+  ],
+  toolbar : 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  });
+</script>
+{% endblock %}

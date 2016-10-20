@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="section">
+  <div class="center">
+    <h1 class="center-text" style="font-weight:300;font-style:italic;">Tom Haines </h1>
+    <h4 class="center-text" style="font-weight:300">Sitting page for my domain & portfolio</h4>
+    <div class="row" style="font-weight:300;font-style:italic;">
+      <a class="black waves-effect waves-light btn">home</a> <a class="black waves-effect waves-light btn" href="/view">blog</a>
+  </div>
+  </div>
+</div>
+<div class="container">
+<div class="divider"></div>
+<div class="section">
+<div class="row">
+  <div class="col s12 m12 l6">
+    <h3 style="font-weight:300">Me.</h3>
+    <p>16. Student who makes stuff on the internet. Most of my projects are used to improve
+    my skills, so aren't fully rounded.</p>
+    <p>Have a poke, and look at my GitHub</p>
+  </div>
+  <div class="col s12 m12 l6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">My GitHub</div>
+        Github list will go here. Possibly using JS (gasp)
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+{% if post %}
+<div class="divider"></div>
+<div class="section">
+  <div class="row">
+    <h4 style="font-weight:300;font-style:italic;"><a href="/view/{{post.id}}">#{{ post.id }}: {{ post.title }}</a></h4>
+    <div class="center">
+        {{ post.content[:1000]| safe }}...<a href="/view/{{post.id}}">(Read More)</a>
+  </div>
+  </div>
+ </div>
+ {% endif %}
+</div>
+{% endblock %}

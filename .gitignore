@@ -1,0 +1,4 @@
+runserver.bat
+*.db
+*.pyc
+__pycache__

@@ -1,0 +1,10 @@
+flask
+flask-login
+itsdangerous
+psycopg2
+flask-wtf
+requests-toolbelt
+requests
+gunicorn
+flask-sqlalchemy
+python-coveralls
