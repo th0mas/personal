@@ -1,9 +1,9 @@
 from github import Github
 from flask import abort
+from blog import cache
+import pickle
 
 class Api():
-    g = Github(user_agent="TomIsPrettyCool")
-    github_user = g.get_user(login="TomIsPrettyCool")
     def __init__(self, path, args=""):
         self.path = path
         self.route = path.split('/')
@@ -22,9 +22,17 @@ class Api():
 
     def github(self):
         print(self.route[1])
-        return getattr(self, "_github_{}".format(self.route[1]))()
+        g = Github(user_agent="TomIsPrettyCool")
+        return getattr(self, "_github_{}".format(self.route[1]))(g)
 
-    # API Methods declared here!
-    def _github_get_recent_repos(self,):
-        repos = self.github_user.get_repos()
-        return [{"name": x.name, "url": x.html_url} for x in repos]
+    # Github API methods
+    def _github_get_recent_repos(self, g): # Cache and get GitHub repos! Could be done nicer, but it works so isn't a priority
+        if cache.exists("github_repos"):
+            return pickle.loads(cache.get("github_repos"))
+        else:
+            github_user = g.get_user(login="TomIsPrettyCool")
+            repos = github_user.get_repos()
+            repo_array = [{"name": x.name, "url": x.html_url} for x in repos]
+            cache.set("github_repos", pickle.dumps(repo_array))
+            cache.expire("github_repos", 120)
+            return repo_array

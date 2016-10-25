@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
 
 #Initialize redis cache
-cache = redis.StrictRedis(os.environ.get("REDIS_URL"))
+cache = redis.StrictRedis()
 
 # Import and Initialize blueprints
 from blog.models.post import BlogPost
