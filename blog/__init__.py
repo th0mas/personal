@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
 
 #Initialize redis cache
-cache = redis.StrictRedis()
+cache = redis.StrictRedis.from_url((os.environ.get("REDIS_URL")))
 
 #GitHub Access token
 app.config["GITHUB_ACCESS_TOKEN"] = os.environ.get("GITHUB_TOKEN")
