@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<title>Tom Haines Blog </title>
+{% endblock %}
+{% block content %}
+{% include 'header.html' %}
+<div class="container">
+{% for post in posts %}
+  {% if post.is_even() %}
+    <div class="card green">
+  {% else %}
+    <div class="card">
+  {% endif %}
+  <div class="card-content">
+    <div class="card-title" style="font-weight:300;font-style:italic;">{{post.title }}</div>
+    <div>{{ post.content[:1000]|safe }}</div>
+    <div class="card-action">
+    <a class="black btn" href="{{ url_for('view.view_post', id=post.id)}}">read more</a>
+  </div>
+  </div>
+</div>
+
+{% endfor %}
+</div>
+{% endblock %}

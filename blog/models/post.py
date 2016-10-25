@@ -3,6 +3,7 @@ Models for BLOG posts
 """
 from blog import db
 from datetime import datetime
+from sqlalchemy import desc
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,3 +15,7 @@ class BlogPost(db.Model):
         self.title = title
         self.content = content
         self.datetimeposted = datetime.utcnow()
+
+    def is_even(self):
+        # Used for templating pretty colours
+        return (self.id / 2).is_integer()
