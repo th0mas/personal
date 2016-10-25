@@ -48,7 +48,7 @@ class BlogTestCase(unittest.TestCase):
     def test_api_github_get_recent_repos(self):
         # Make sure
         result = self.app.get('/api/github/get_recent_repos/')
-        self.assertEqual(rc.status_code, 200)
+        self.assertEqual(result.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()
