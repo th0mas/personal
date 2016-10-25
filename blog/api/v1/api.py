@@ -1,6 +1,6 @@
 from github import Github
 from flask import abort
-from blog import cache
+from blog import cache, app
 import pickle
 
 class Api():
@@ -22,7 +22,7 @@ class Api():
 
     def github(self):
         print(self.route[1])
-        g = Github(user_agent="TomIsPrettyCool")
+        g = Github(user_agent="TomIsPrettyCool", login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
         return getattr(self, "_github_{}".format(self.route[1]))(g)
 
     # Github API methods
@@ -34,5 +34,5 @@ class Api():
             repos = github_user.get_repos()
             repo_array = [{"name": x.name, "url": x.html_url} for x in repos]
             cache.set("github_repos", pickle.dumps(repo_array))
-            cache.expire("github_repos", 120)
+            cache.expire("github_repos", 30)
             return repo_array

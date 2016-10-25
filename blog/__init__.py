@@ -12,6 +12,9 @@ db = SQLAlchemy(app)
 #Initialize redis cache
 cache = redis.StrictRedis()
 
+#GitHub Access token
+app.config["GITHUB_ACCESS_TOKEN"] = os.environ.get("GITHUB_TOKEN")
+
 # Import and Initialize blueprints
 from blog.models.post import BlogPost
 from blog.home.views import home_blueprint
