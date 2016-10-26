@@ -1,5 +1,12 @@
 {
   "scripts": {
-    "postdeploy": "python migrate_db.py",
+    "dokku": {
+      "postdeploy": "flask db upgrade",
+    },
+  },
+  "env": {
+    "FLASK_APP": {
+      "value": "blog:app"
+    }
   }
 }

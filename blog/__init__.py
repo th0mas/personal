@@ -2,12 +2,16 @@ import os
 import redis
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 app = Flask(__name__)
 app.secret_key = "devkey"
 
 #Initialize database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
+
+#Initialize migration libary
+migrate = Migrate(app, db)
 
 #Initialize redis cache
 cache = redis.StrictRedis.from_url((os.environ.get("REDIS_URL")))
