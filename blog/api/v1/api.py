@@ -21,12 +21,14 @@ class Api():
         return getattr(self, self.route[0])()
 
     def github(self):
+        # Initialize Github api client then call correc
         print(self.route[1])
         g = Github(user_agent="TomIsPrettyCool", login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
         return getattr(self, "_github_{}".format(self.route[1]))(g)
 
     # Github API methods
-    def _github_get_recent_repos(self, g): # Cache and get GitHub repos! Could be done nicer, but it works so isn't a priority
+    def _github_get_recent_repos(self, g):
+		# Cache and get GitHub repos! Could be done nicer, but it works so isn't a priority
         if cache.exists("github_repos"):
             return pickle.loads(cache.get("github_repos"))
         else:

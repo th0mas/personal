@@ -3,8 +3,10 @@ import blog
 import tempfile
 import os
 from blog import models
+from blog import bcrypt
+from flask_login import login_user, current_user
 
-class BlogTestCase(unittest.TestCase):
+class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.db_fd = tempfile.mkstemp()
         blog.app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + self.db_fd[1]
@@ -22,7 +24,8 @@ class BlogTestCase(unittest.TestCase):
         os.close(self.db_fd[0])
         os.unlink(self.db_fd[1])
 
-    def test_url_path(self):
+class BasicTestCase(BaseTestCase):
+    def test_home_url(self):
         result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
@@ -36,19 +39,63 @@ class BlogTestCase(unittest.TestCase):
         self.assertEqual(test_post.title, "test_title")
         self.assertEqual(test_post.content, "test content")
 
-    def test_create_form(self):
-        rc = self.app.post('/create/', data={
-            "title": "test title",
-            "tags": "test, post",
-            "post": "This is a post!"
-        }, follow_redirects=True)
-        rc = rc.data.decode()
-        assert "This is a post!" in rc
+    def test_blog_url(self):
+        result = self.app.get("/view/")
+        self.assertEqual(result.status_code, 200)
+
+        result = self.app.get("/view/?page=1")
+        self.assertEqual(result.status_code, 200)
 
     def test_api_github_get_recent_repos(self):
         # Make sure
         result = self.app.get('/api/v1/github/get_recent_repos/')
         self.assertEqual(result.status_code, 200)
+
+    def test_user_account_create(self):
+        test_user = models.auth.User("test@example.com",
+            "testpass1",
+            "ADM")
+        self.db.session.add(test_user)
+        self.db.session.commit()
+
+        hashed_pw = bcrypt.generate_password_hash("testpass1")
+
+        self.assertTrue(test_user.check_password_hash("testpass1"))
+        self.assertEqual(test_user.get_id(), "test@example.com")
+
+    def test_login_security(self):
+        result = self.app.get('/create/')
+        self.assertEqual(result.status_code, 302)
+
+class LoggedInTestCase(BaseTestCase):
+    def setUp(self):
+        super(LoggedInTestCase, self).setUp()
+        user = models.auth.User("testusr@example.com", "TestPass1", "ADM")
+        self.db.session.add(user)
+        self.db.session.commit()
+
+    def tearDown(self):
+        super(LoggedInTestCase, self).tearDown()
+
+    def log_in(self):
+        self.app.post('/login/',
+            data={"email": "testusr@example.com", "password": "TestPass1"},
+            follow_redirects=True)
+
+    def test_log_in(self):
+        with self.app:
+            self.log_in()
+            self.assertEqual(current_user.email, "testusr@example.com")
+
+    def test_create_page(self):
+        with self.app:
+            self.log_in()
+
+            result = self.app.post('/create/',
+                data={"title": "test post", "post": "test content"},
+                follow_redirects=True)
+
+            self.assertIn("test content", result.data.decode())
 
 if __name__ == "__main__":
     unittest.main()

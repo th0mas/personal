@@ -1,8 +1,10 @@
 import os
 import redis
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = "devkey"
 
@@ -12,6 +14,19 @@ db = SQLAlchemy(app)
 
 #Initialize migration libary
 migrate = Migrate(app, db)
+
+#Initialize Bcrypt
+bcrypt = Bcrypt(app)
+
+#Initialize flask_login
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+from .models.auth import User
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
 
 #Initialize redis cache
 cache = redis.StrictRedis.from_url((os.environ.get("REDIS_URL")))
@@ -30,3 +45,9 @@ app.register_blueprint(home_blueprint)
 app.register_blueprint(view_blueprint, url_prefix='/view')
 app.register_blueprint(create_blueprint, url_prefix='/create')
 app.register_blueprint(api_blueprint, url_prefix='/api/v1')
+
+
+# Register error handlers
+@app.errorhandler(401)
+def unauthorirzed(error):
+    return redirect(url_for("home.login"))

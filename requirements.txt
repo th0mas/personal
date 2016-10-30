@@ -10,3 +10,4 @@ python-coveralls
 PyGithub
 redis
 Flask-Migrate
+Flask-Bcrypt

@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for
 from .forms import CreateForm
 from blog import db, BlogPost
+from flask_login import login_required
 
 create_blueprint = Blueprint('create', __name__)
 
 @create_blueprint.route('/', methods=["GET", "POST"])
+@login_required
 def main():
     create_form = CreateForm()
     if create_form.validate_on_submit():
