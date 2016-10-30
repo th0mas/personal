@@ -3,7 +3,7 @@ from blog import db, bcrypt
 
 class User(db.Model):
     email = db.Column(db.String, primary_key=True)
-    password = db.Column(db.String)
+    password = db.Column(db.LargeBinary())
 
     role = db.Column(db.String(3))
 
