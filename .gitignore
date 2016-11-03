@@ -1,4 +1,5 @@
 runserver.bat
+.vscode
 *.db
 *.pyc
 __pycache__
