@@ -5,7 +5,7 @@
     <div class="row" style="font-weight:300;font-style:italic;">
       <a class="black waves-effect waves-light btn" href="/">home</a> <a class="black waves-effect waves-light btn" href="/view">blog</a>
       {% if current_user.is_authenticated %}
-        Logged in as: {{ current_user.email }}
+        <p>Logged in as: {{ current_user.email }}</p>
       {% endif %}
   </div>
   {% with messages = get_flashed_messages() %}

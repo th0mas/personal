@@ -13,10 +13,7 @@ class GitHub():
             self.args = args
 
     def valid_api_route(self):
-        if hasattr(self, self.route[0]):
-            return True
-        else:
-            return False
+        return hasattr(self, self.route[0])
 
     def get_result(self):
         return getattr(self, self.route[0])()
