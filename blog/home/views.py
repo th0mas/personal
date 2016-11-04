@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash
 from blog import BlogPost, User
 from sqlalchemy import desc
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 from .forms import LoginForm
 
 home_blueprint = Blueprint('home', __name__)
@@ -24,3 +24,8 @@ def login():
             flash("Failed to login: email or password is incorrect")
 
     return render_template('/home/auth.html', form=login_form)
+
+@home_blueprint.route('/logout/')
+def logout():
+    logout_user()
+    return redirect('/')

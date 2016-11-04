@@ -96,6 +96,12 @@ class LoggedInTestCase(BaseTestCase):
                 follow_redirects=True)
 
             self.assertIn("test content", result.data.decode())
+    
+    def test_logout_method(self):
+        self.log_in()
+        result = self.app.get('/logout/')
+        self.assertEqual(result.status_code, 302)
 
 if __name__ == "__main__":
     unittest.main()
+    
