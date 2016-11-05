@@ -24,9 +24,11 @@ class GitHub():
         if cache.exists("github_repos"):
             return pickle.loads(cache.get("github_repos"))
         else:
-            github_user = self.g.get_user(login="TomIsPrettyCool")
-            repos = github_user.get_repos()
-            repo_array = [{"name": x.name, "url": x.html_url} for x in repos]
+            repos = self.g.search_repositories(query="user:TomIsPrettyCool", sort="updated", order="desc", fork="true")
+            repo_array =  [{"name": x.name, "url": x.html_url, "last-edit":""} for x in repos]
+
+            # Need to add last activity on GitHub
+
             cache.set("github_repos", pickle.dumps(repo_array))
             cache.expire("github_repos", 30)
             return repo_array
