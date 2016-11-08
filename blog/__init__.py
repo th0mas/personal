@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
-app.secret_key = "devkey"
+app.secret_key = os.environ.get("FLASK_APP_SECRET_KEY")
 
 #Initialize database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
