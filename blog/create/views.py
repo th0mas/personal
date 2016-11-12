@@ -16,5 +16,5 @@ def main():
             )
         db.session.add(new_post)
         db.session.commit()
-        return redirect(url_for('view.view_post', id=new_post.id))
+        return redirect(url_for('blog.view_post', id=new_post.id))
     return render_template('/create/create.html', create_form=create_form)

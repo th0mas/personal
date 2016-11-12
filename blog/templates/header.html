@@ -3,7 +3,8 @@
     <h1 class="center-text" style="font-weight:300;font-style:italic;">Tom Haines </h1>
     <h4 class="center-text" style="font-weight:300">Sitting page for my domain & portfolio</h4>
     <div class="row" style="font-weight:300;font-style:italic;">
-      <a class="black waves-effect waves-light btn" href="/">home</a> <a class="black waves-effect waves-light btn" href="/view/">blog</a>
+      <a class="black waves-effect waves-light btn" href="/">home</a>
+      <a class="black waves-effect waves-light btn" href="{{ url_for('blog.main', page=1) }}">blog</a>
       {% if current_user.is_authenticated %}
       <a class="black waves-effect waves-light btn" href="/create/">create</a>
       <a class="black waves-effect waves-light btn" href="/logout/">log out</a>

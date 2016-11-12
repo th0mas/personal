@@ -42,7 +42,7 @@ from blog.create.views import create_blueprint
 from blog.api.v1.views import api_blueprint
 
 app.register_blueprint(home_blueprint)
-app.register_blueprint(view_blueprint, url_prefix='/view')
+app.register_blueprint(view_blueprint, url_prefix='/blog')
 app.register_blueprint(create_blueprint, url_prefix='/create')
 app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 

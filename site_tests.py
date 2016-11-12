@@ -5,6 +5,7 @@ import os
 from blog import models
 from blog import bcrypt
 from flask_login import login_user, current_user
+from flask import url_for
 
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
@@ -40,10 +41,7 @@ class BasicTestCase(BaseTestCase):
         self.assertEqual(test_post.content, "test content")
 
     def test_blog_url(self):
-        result = self.app.get("/view/")
-        self.assertEqual(result.status_code, 200)
-
-        result = self.app.get("/view/?page=1")
+        result = self.app.get('/blog/1/')
         self.assertEqual(result.status_code, 200)
 
     def test_api_github_get_recent_repos(self):

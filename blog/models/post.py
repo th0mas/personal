@@ -16,6 +16,8 @@ class BlogPost(db.Model):
         self.content = content
         self.datetimeposted = datetime.utcnow()
 
-    def is_even(self):
-        # Used for templating pretty colours
-        return (self.id / 2).is_integer()
+    @staticmethod
+    def get_pagination(page):
+        return BlogPost.query.order_by(desc(BlogPost.datetimeposted)).paginate(
+                                        page=page, per_page=5)
+

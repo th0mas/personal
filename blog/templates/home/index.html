@@ -32,9 +32,9 @@
 <div class="divider"></div>
 <div class="section">
   <div class="row">
-    <h4 style="font-weight:300;font-style:italic;"><a href="/view/{{post.id}}">#{{ post.id }}: {{ post.title }}</a></h4>
+    <h4 style="font-weight:300;font-style:italic;"><a href="{{ url_for('blog.view_post', id=post.id) }}">#{{ post.id }}: {{ post.title }}</a></h4>
     <div class="">
-        {{ post.content[:1000]| safe }}...<a href="/view/{{post.id}}">(Read More)</a>
+        {{ post.content[:1000]| safe }}...<a href="{{ url_for('blog.view_post', id=post.id) }}">(Read More)</a>
   </div>
   </div>
  </div>
