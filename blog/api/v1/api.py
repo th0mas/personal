@@ -32,3 +32,13 @@ class GitHub():
             cache.set("github_repos", pickle.dumps(repo_array))
             cache.expire("github_repos", 30)
             return repo_array
+
+    def last_activity(self):
+        # Get last activity on github, spaghetti code incoming
+        event = self.g.get_user("TomIsPrettyCool").get_public_events()[0]
+        response = {"payload": event.payload, 
+                    "repo": {"url": event.repo.html_url, "name": event.repo.name},
+                    "time": event.created_at,
+                    "type": event.type}
+        
+        return response
