@@ -49,6 +49,10 @@ class BasicTestCase(BaseTestCase):
         result = self.app.get('/api/v1/github/get_recent_repos/')
         self.assertEqual(result.status_code, 200)
 
+    def test_api_github_get_last_activity(self):
+        result = self.app.get('/api/v1/github/last_activity/')
+        self.assertEqual(result.status_code, 200)
+
     def test_user_account_create(self):
         test_user = models.auth.User("test@example.com",
             "testpass1",

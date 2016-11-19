@@ -1,59 +1,91 @@
-{% extends 'base.html' %}
-{% block content %}
-{% include 'header.html' %}
+{% extends 'base.html' %} {% block content %} {% include 'header.html' %}
 <div class="container">
-<div class="divider"></div>
+  <div class="divider"></div>
 </div>
 <div class="section green">
-<div class="container">
-<div class="row">
-  <div class="col s12 m12 l6">
-    <h3 style="font-weight:300">Me.</h3>
-    <p>16. Good at python, make webapps in Flask.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis
-      magna ultricies sodales commodo. Aenean imperdiet ac risus nec tincidunt. Etiam tempus a enim at accumsan.
-      Quisque eget ligula eget augue iaculis convallis ac a lectus. Duis malesuada quam non tortor accumsan,
-      quis pretium dui sagittis. Fusce non magna id ipsum rutrum volutpat. Duis vitae condimentum quam.
-      Cras pellentesque nulla massa, in auctor lectus molestie egestas.</p>
-  </div>
-  <div class="col s12 m12 l6">
-    <div class="card">
-      <div class="card-content">
-        <div class="card-title">My GitHub</div>
-        <div class="collection"><div class="progress"><div class="indeterminate"></div></div></div>
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m12 l6">
+        <h3 style="font-weight:300">Me.</h3>
+        <p>16. Good at python, make webapps in Flask.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis magna ultricies sodales commodo. Aenean
+          imperdiet ac risus nec tincidunt. Etiam tempus a enim at accumsan. Quisque eget ligula eget augue iaculis convallis
+          ac a lectus. Duis malesuada quam non tortor accumsan, quis pretium dui sagittis. Fusce non magna id ipsum rutrum
+          volutpat. Duis vitae condimentum quam. Cras pellentesque nulla massa, in auctor lectus molestie egestas.</p>
+      </div>
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-title">My GitHub</div>
+            <div class="collection">
+              <!-- Github repo list -->
+            </div>
+            <p class="github-activity"></p>
+            <div class="center preloader-jquery-hook">
+              <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-</div>
 </div>
 {% if post %}
 <div class="container">
-<div class="divider"></div>
-<div class="section">
-  <div class="row">
-    <h4 style="font-weight:300;font-style:italic;"><a href="{{ url_for('blog.view_post', id=post.id) }}">#{{ post.id }}: {{ post.title }}</a></h4>
-    <div class="">
+  <div class="divider"></div>
+  <div class="section">
+    <div class="row">
+      <h4 style="font-weight:300;font-style:italic;"><a href="{{ url_for('blog.view_post', id=post.id) }}">#{{ post.id }}: {{ post.title }}</a></h4>
+      <div class="">
         {{ post.content[:1000]| safe }}...<a href="{{ url_for('blog.view_post', id=post.id) }}">(Read More)</a>
+      </div>
+    </div>
   </div>
-  </div>
- </div>
- </div>
- {% endif %}
+</div>
+{% endif %}
 
- <script>
+<script>
+var recent_repos = {}
+var last_activity = {}
+// Get list of github repos
 $(function (){
-  $.get("/api/v1/github/get_recent_repos/",
-  function( data ){ gitub_repos(data); },
-  "json");
+  $.when(
+    $.get("/api/v1/github/get_recent_repos/",
+    function( data ){ recent_repos = data; },
+    "json"),
 
+    $.get("/api/v1/github/last_activity",
+    function( data ){ last_activity = data; },
+    "json")
+
+  ).then(function() {
+      
+      for (item in recent_repos ){
+        $(".collection").append("<a href=" + recent_repos[item].url + " class='black-text card-item collection-item'>" + recent_repos[item].name + "</a>");
+      }
+
+      $(".github-activity").append("I was last " + last_activity.activity + " <a href='" + last_activity.repo.url + 
+                                    "'>" + last_activity.commit_message + "</a>. <i>" + last_activity.time + "</i>");
+
+      $(".preloader-jquery-hook").remove();
+    }
+  )
 })
 
-function gitub_repos(data){
-  $(".progress").remove();
-  for (item in data){
-    $(".collection").append("<a href=" + data[item].url + " class='black-text card-item collection-item'>" + data[item].name + "</a>");
-  }
-}
- </script>
+
+
+
+</script>
 {% endblock %}

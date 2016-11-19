@@ -30,15 +30,27 @@ class GitHub():
             # Need to add last activity on GitHub
 
             cache.set("github_repos", pickle.dumps(repo_array))
-            cache.expire("github_repos", 30)
+            cache.expire("github_repos", 60)
             return repo_array
 
     def last_activity(self):
         # Get last activity on github, spaghetti code incoming
-        event = self.g.get_user("TomIsPrettyCool").get_public_events()[0]
-        response = {"payload": event.payload, 
-                    "repo": {"url": event.repo.html_url, "name": event.repo.name},
-                    "time": event.created_at,
-                    "type": event.type}
-        
-        return response
+        if cache.exists("github_last_activity"):
+            return pickle.loads(cache.get("github_last_activity"))
+        else:
+            events = self.g.get_user("TomIsPrettyCool").get_public_events()[:3]
+
+            for event in events:
+                if event.type == "PushEvent":
+                    commit_message = event.payload["commits"][0]["message"]
+                    activity = "pushing to the repo {0}: ".format(
+                        event.repo.name
+                    )
+                    response = {"activity": activity,
+                            "repo": {"url": event.repo.html_url, "name": event.repo.name},
+                            "time": event.created_at,
+                            "commit_message": commit_message}
+                    break
+            cache.set("github_last_activity", pickle.dumps(response))
+            cache.expire("github_last_activity", 60)
+            return response
