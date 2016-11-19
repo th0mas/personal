@@ -47,7 +47,5 @@ app.register_blueprint(create_blueprint, url_prefix='/create')
 app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
 
-# Register error handlers
-@app.errorhandler(401)
-def unauthorirzed(error):
-    return redirect(url_for("home.login"))
+# Import error handlers
+from blog import errorhandlers
