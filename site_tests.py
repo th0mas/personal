@@ -67,7 +67,7 @@ class BasicTestCase(BaseTestCase):
 
     def test_login_security(self):
         result = self.app.get('/create/')
-        self.assertEqual(result.status_code, 302)
+        self.assertEqual(result.status_code, 401)
 
     def test_error_404(self):
         result = self.app.get('/pagethatdoesntexist/')
