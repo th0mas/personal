@@ -69,6 +69,10 @@ class BasicTestCase(BaseTestCase):
         result = self.app.get('/create/')
         self.assertEqual(result.status_code, 302)
 
+    def test_error_404(self):
+        result = self.app.get('/pagethatdoesntexist/')
+        self.assertEqual(result.status_code, 404)
+
 class LoggedInTestCase(BaseTestCase):
     def setUp(self):
         super(LoggedInTestCase, self).setUp()
