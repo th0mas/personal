@@ -3,9 +3,12 @@ from flask import abort
 from blog import cache, app
 import pickle
 
+
 class GitHub():
+
     def __init__(self, path, args):
-        self.g = Github(user_agent="TomIsPrettyCool", login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
+        self.g = Github(user_agent="TomIsPrettyCool",
+                        login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
         self.path = path
         self.route = path.split('/')
 
@@ -20,12 +23,15 @@ class GitHub():
 
     # Github API methods
     def get_recent_repos(self):
-		# Cache and get GitHub repos! Could be done nicer, but it works so isn't a priority
+                # Cache and get GitHub repos! Could be done nicer, but it works
+                # so isn't a priority
         if cache.exists("github_repos"):
             return pickle.loads(cache.get("github_repos"))
         else:
-            repos = self.g.search_repositories(query="user:TomIsPrettyCool", sort="updated", order="desc", fork="true")
-            repo_array =  [{"name": x.name, "url": x.html_url, "last-edit":""} for x in repos]
+            repos = self.g.search_repositories(
+                query="user:TomIsPrettyCool", sort="updated", order="desc", fork="true")
+            repo_array = [{"name": x.name, "url": x.html_url,
+                           "last-edit": ""} for x in repos]
 
             # Need to add last activity on GitHub
 
@@ -47,9 +53,9 @@ class GitHub():
                         event.repo.name
                     )
                     response = {"activity": activity,
-                            "repo": {"url": event.repo.html_url, "name": event.repo.name},
-                            "time": event.created_at,
-                            "commit_message": commit_message}
+                                "repo": {"url": event.repo.html_url, "name": event.repo.name},
+                                "time": event.created_at,
+                                "commit_message": commit_message}
                     break
             cache.set("github_last_activity", pickle.dumps(response))
             cache.expire("github_last_activity", 60)
