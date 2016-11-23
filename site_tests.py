@@ -64,6 +64,16 @@ class BasicTestCase(BaseTestCase):
 
         self.assertTrue(test_user.check_password_hash("testpass1"))
         self.assertEqual(test_user.get_id(), "test@example.com")
+    
+    def test_contact_form(self):
+        r = self.app.post('/',
+            data={
+                "name": "test",
+                "email": "testemail@email.com",
+                "subject": "test_subject",
+                "message": "message"
+            })
+        self.assertEqual(302, r.status_code)
 
     def test_login_security(self):
         result = self.app.get('/create/')

@@ -31,8 +31,10 @@ def load_user(user_id):
 #Initialize redis cache
 cache = redis.StrictRedis.from_url((os.environ.get("REDIS_URL")))
 
-#GitHub Access token
+#Access/API tokens configured here
 app.config["GITHUB_ACCESS_TOKEN"] = os.environ.get("GITHUB_TOKEN")
+app.config["MAILGUN_DOMAIN"] = os.environ.get("MAILGUN_DOMAIN")
+app.config["MAILGUN_API_KEY"] = os.environ.get("MAILGUN_API_KEY")
 
 # Import and Initialize blueprints
 from blog.models.post import BlogPost

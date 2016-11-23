@@ -1,15 +1,22 @@
-from flask import Blueprint, render_template, redirect, flash
+from flask import Blueprint, render_template, redirect, flash, url_for
 from blog import BlogPost, User
 from sqlalchemy import desc
 from flask_login import login_user, logout_user, login_required
-from .forms import LoginForm
+from .forms import LoginForm, ContactForm
+from .helpers import contact_form_send_email
 
 home_blueprint = Blueprint('home', __name__)
 
-@home_blueprint.route('/')
+@home_blueprint.route('/', methods=["GET", "POST"])
 def home():
     recent = BlogPost.query.order_by(desc(BlogPost.id)).first()
-    return render_template('/home/index.html', post=recent)
+    # Initialize and check contact form
+    contactform = ContactForm()
+    if contactform.validate_on_submit():
+        contact_form_send_email(contactform)
+        flash("Thanks! Your message has been recieved")
+        return redirect('/')
+    return render_template('/home/index.html', post=recent, contact=contactform)
 
 @home_blueprint.route('/login/', methods=["GET", "POST"])
 def login():

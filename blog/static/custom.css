@@ -1,8 +1,14 @@
-.card-item{
-  font-weight:300;
-  font-style:italic;
-}
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    }
 
-blockquote{
-  border-left: 5px solid #333
-}
+  main {
+    flex: 1 0 auto;
+  }
+
+.card-item {
+    font-weight:300;
+    font-style:italic;
+  }
