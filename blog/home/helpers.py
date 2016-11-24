@@ -4,14 +4,17 @@ from blog import app
 # Email helper
 def contact_form_send_email(content):
     email_data = {
-        "from": "personalsite@tomhaines.xyz",
-        "to": "tom@tomhaines.xyz",
+        "from": content.email.data,
+        "to": ["tom@tomhaines.xyz"],
         "subject": content.subject.data,
-        "message": content.message.data
+        "text": content.message.data
     }
+    print(email_data)
 
-    requests.post(
+    r = requests.post(
         "https://api.mailgun.net/v3/{}/messages".format(app.config["MAILGUN_DOMAIN"]),
         auth=("api", app.config["MAILGUN_API_KEY"]),
         data=email_data
     )
+
+    print(r.status_code)

@@ -72,20 +72,20 @@
           <form method="POST" action="/">
             {{ contact.hidden_tag() }}
             <div class="input-field">
-              {{ contact.name() }}
               <label for="name">Your Name</label>
+              {{ contact.name() }}
             </div>
             <div class="input-field">
-              {{ contact.email() }}
               <label for="email">Your Email</label>
+              {{ contact.email() }}
             </div>
             <div class="input-field">
-              {{ contact.subject() }}
               <label for="email">Subject</label>
+              {{ contact.subject() }}
             </div>
             <div class="input-field">
-              {{ contact.message(class_="materialize-textarea") }}
               <label for="message">Message</label>
+              {{ contact.message(class_="materialize-textarea") }}
             </div>
             </div>
             <div class="card-action">
