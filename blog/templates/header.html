@@ -10,6 +10,7 @@
       {% endif %}
   </div>
   {% with messages = get_flashed_messages() %}
+  <div class="container">
     {% for message in messages %}
     <div class="card red">
         <div class="card-content white-text">
@@ -17,6 +18,7 @@
         </div>
       </div>
     {% endfor %}
+    </div>
   {% endwith %}
   </div>
 </div>
