@@ -12,3 +12,11 @@
     font-weight:300;
     font-style:italic;
   }
+
+.parallax-container {
+  height: auto;
+}
+
+footer.page-footer{
+    background-color: transparent;
+}
