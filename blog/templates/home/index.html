@@ -131,6 +131,10 @@ $(function (){
                                     "'>" + last_activity.commit_message + "</a>. <i>" + last_activity.time + "</i>");
 
       $(".preloader-jquery-hook").remove();
+
+      $(document).ready(function(){ // Re-initialize to fix awkward jumping bug
+        $('.parallax').parallax();
+      });
     }
   )
 })
