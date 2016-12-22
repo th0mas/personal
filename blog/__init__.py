@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
+
+# Initialize App
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_APP_SECRET_KEY")
 

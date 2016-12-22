@@ -12,12 +12,19 @@ class BlogPost(db.Model):
     datetimeposted = db.Column(db.DateTime)
 
     def __init__(self, title, content):
+        """
+        Set the values of the Model, sets the time posted
+        """
         self.title = title
         self.content = content
         self.datetimeposted = datetime.utcnow()
 
     @staticmethod
     def get_pagination(page):
+        """
+        Returns a page of blog posts.
+        Also has other helpers such as next page that can be used in templating.
+        """
         return BlogPost.query.order_by(desc(BlogPost.datetimeposted)).paginate(
                                         page=page, per_page=5)
 

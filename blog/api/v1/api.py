@@ -5,7 +5,10 @@ import pickle
 
 
 class GitHub():
-
+    """
+    Pull specific data down from the Github API
+    Designed to be extendable
+    """
     def __init__(self, path, args):
         self.g = Github(user_agent="TomIsPrettyCool",
                         login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
@@ -16,15 +19,22 @@ class GitHub():
             self.args = args
 
     def valid_api_route(self):
+        """
+        Check the API route is valid/Make sure theres a function for it
+        """
         return hasattr(self, self.route[0])
 
     def get_result(self):
+        """
+        Return the result from the function called from the API.
+        """
         return getattr(self, self.route[0])()
 
     # Github API methods
     def get_recent_repos(self):
-                # Cache and get GitHub repos! Could be done nicer, but it works
-                # so isn't a priority
+        """
+        Method to get my Repos on Github and return them as a JSON formatted list
+        """
         if cache.exists("github_repos"):
             return pickle.loads(cache.get("github_repos"))
         else:
@@ -40,7 +50,9 @@ class GitHub():
             return repo_array
 
     def last_activity(self):
-        # Get last activity on github, spaghetti code incoming
+        """
+        Method to get my last activity on Github, return as JSON values.
+        """
         if cache.exists("github_last_activity"):
             return pickle.loads(cache.get("github_last_activity"))
         else:

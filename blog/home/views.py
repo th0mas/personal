@@ -9,18 +9,25 @@ home_blueprint = Blueprint('home', __name__)
 
 @home_blueprint.route('/', methods=["GET", "POST"])
 def home():
+    # Get most recest blog post
     recent = BlogPost.query.order_by(desc(BlogPost.id)).first()
     # Initialize and check contact form
     contactform = ContactForm()
+
+    # Check the form is valid
     if contactform.validate_on_submit():
         contact_form_send_email(contactform)
         flash("Thanks! Your message has been recieved")
         return redirect('/')
+
+    # Return the home page
     return render_template('/home/index.html', post=recent, contact=contactform)
 
 @home_blueprint.route('/login/', methods=["GET", "POST"])
 def login():
+
     login_form = LoginForm()
+
     if login_form.validate_on_submit():
         user = User.query.get(login_form.email.data)
 
@@ -34,5 +41,7 @@ def login():
 
 @home_blueprint.route('/logout/')
 def logout():
+    # Logout the user, then redirect to home
+    # TODO: Redirect to page they logged out from
     logout_user()
     return redirect('/')

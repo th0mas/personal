@@ -1,8 +1,14 @@
 import requests
 from blog import app
 
-# Email helper
 def contact_form_send_email(content):
+    """
+    Sends an email using the MailGun API
+    content: WTForms object including:
+        email.data : the email entered in the format
+        subject.data : the subject 
+        message.data : the content of the email
+    """
     email_data = {
         "from": content.email.data,
         "to": ["tom@tomhaines.xyz"],

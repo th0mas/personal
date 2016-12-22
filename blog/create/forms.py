@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired
 
+# Form for writing the blog
 class CreateForm(FlaskForm):
     title = StringField('title', validators=[DataRequired()])
     tags = StringField('tags')
