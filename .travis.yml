@@ -6,14 +6,9 @@ services:
   - redis
 install: pip install -r requirements.txt
 script: coverage run --omit "*.html" --source blog site_tests.py
-after_success:
-- coveralls
-- ssh-keyscan -H tomhaines.xyz >> ~/.ssh/known_hosts
-- eval "$(ssh-agent -s)"
-- chmod 600 .travis/deploy_key.pem
-- ssh-add .travis/deploy_key.pem
-- git remote add deploy dokku@tomhaines.xyz:personal
-- git push deploy master
+deploy:
+  provider: script
+  script: deploy
   on:
     branch: master
 before_install:

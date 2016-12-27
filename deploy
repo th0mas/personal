@@ -1,0 +1,7 @@
+coveralls
+ssh-keyscan -H tomhaines.xyz >> ~/.ssh/known_hosts
+eval "$(ssh-agent -s)"
+chmod 600 .travis/deploy_key.pem
+ssh-add .travis/deploy_key.pem
+git remote add deploy dokku@tomhaines.xyz:personal
+git push deploy master
