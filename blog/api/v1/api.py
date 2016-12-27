@@ -64,7 +64,7 @@ class GitHub():
                     commit_message = event.payload["commits"][0]["message"]
                     
                     # Get the time diff
-                    time_slang = maya.parse(event.created_at).slang_time() # Gotta love maya
+                    time_slang = maya.MayaDT.from_datetime(event.created_at).slang_time()
 
                     activity = "pushing to the repo {0}: ".format(
                         event.repo.name
