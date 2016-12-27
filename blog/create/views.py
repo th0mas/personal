@@ -8,7 +8,7 @@ create_blueprint = Blueprint('create', __name__)
 
 @create_blueprint.route('/', methods=["GET", "POST"])
 @login_required
-def main():
+def create():
     # Initliaze WTForms create post object
     create_form = CreateForm()
 
