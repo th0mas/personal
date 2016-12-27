@@ -4,3 +4,6 @@ env
 *.db
 *.pyc
 __pycache__
+
+# Maya.py only used for development, otherwise get from pypi
+maya.py 

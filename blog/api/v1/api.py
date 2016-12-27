@@ -2,6 +2,7 @@ from github import Github
 from flask import abort
 from blog import cache, app
 import pickle
+import maya
 
 
 class GitHub():
@@ -61,12 +62,16 @@ class GitHub():
             for event in events:
                 if event.type == "PushEvent":
                     commit_message = event.payload["commits"][0]["message"]
+                    
+                    # Get the time diff
+                    time_slang = maya.parse(event.created_at).slang_time() # Gotta love maya
+
                     activity = "pushing to the repo {0}: ".format(
                         event.repo.name
                     )
                     response = {"activity": activity,
                                 "repo": {"url": event.repo.html_url, "name": event.repo.name},
-                                "time": event.created_at,
+                                "time": time_slang,
                                 "commit_message": commit_message}
                     break
             cache.set("github_last_activity", pickle.dumps(response))
