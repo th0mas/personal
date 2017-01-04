@@ -74,6 +74,16 @@ class GitHub():
                                 "time": time_slang,
                                 "commit_message": commit_message}
                     break
-            cache.set("github_last_activity", pickle.dumps(response))
+                    
+            if response:
+                pass # Yay!
+            else:
+                # Oh dear no response, panic
+                response = {"activity": "doing something I haven't coded into this API yet",
+                            "repo": {"url": "", "name": ""},
+                            "time": "Just now",
+                            "commit_message": ""}
+                            
+            cache.set("github_last_activity", pickle.dumps(response)) 
             cache.expire("github_last_activity", 60)
             return response
