@@ -57,33 +57,30 @@ class GitHub():
         if cache.exists("github_last_activity"):
             return pickle.loads(cache.get("github_last_activity"))
         else:
-            events = self.g.get_user("TomIsPrettyCool").get_public_events()[:3]
+            # Get new and render
+            event = self.g.get_user("TomIsPrettyCool").get_public_events()[3] # Get last activity
 
-            for event in events:
-                if event.type == "PushEvent":
-                    commit_message = event.payload["commits"][0]["message"]
+            # Check its something we know how to deal with, panic if isnt
+            if event.type == "PushEvent":
+                commit_message = event.payload["commits"][0]["message"]
                     
-                    # Get the time diff
-                    time_slang = maya.MayaDT.from_datetime(event.created_at).slang_time()
-
-                    activity = "pushing to the repo {0}: ".format(
-                        event.repo.name
-                    )
-                    response = {"activity": activity,
-                                "repo": {"url": event.repo.html_url, "name": event.repo.name},
-                                "time": time_slang,
-                                "commit_message": commit_message}
-                    break
                     
-            if response:
-                pass # Yay!
+                response = {"activity": "pushing to the repo",
+                            "repo": {"url": event.repo.html_url, "name": event.repo.name},
+                            "time": self._get_slang_time(event.created_at),
+                            "commit_message": commit_message}
+            
             else:
-                # Oh dear no response, panic
                 response = {"activity": "doing something I haven't coded into this API yet",
                             "repo": {"url": "", "name": ""},
-                            "time": "Just now",
+                            "time": self._get_slang_time(event.created_at),
                             "commit_message": ""}
                             
-            cache.set("github_last_activity", pickle.dumps(response)) 
-            cache.expire("github_last_activity", 60)
-            return response
+        # Cache result for 60 seconds and return                    
+        cache.set("github_last_activity", pickle.dumps(response)) 
+        cache.expire("github_last_activity", 60)
+        return response
+
+
+    def _get_slang_time(self, time):
+        return maya.MayaDT.from_datetime(time).slang_time()
