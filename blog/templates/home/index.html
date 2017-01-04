@@ -127,8 +127,13 @@ $(function (){
         $(".collection").append("<a href=" + recent_repos[item].url + " class='black-text card-item collection-item'>" + recent_repos[item].name + "</a>");
       }
 
-      $(".github-activity").append(last_activity.time + " I was commiting to the repo <a href='" + last_activity.repo.url + "'> " + last_activity.repo.name + 
-        "</a> with the message: <i>" + last_activity.commit_message + "</i>");
+      //$(".github-activity").append(last_activity.time + "I was" + last_activity.activity + "<a href='" + last_activity.repo.url + "'> " + last_activity.repo.name + 
+        //"</a> with the message: <i>" + last_activity.commit_message + "</i>");
+      github_activity = $(".github-activity");
+
+      github_activity.append(` ${last_activity.time} I was ${last_activity.activity} <a href='${last_activity.repo.url}'> ${last_activity.repo.name} </a>`);
+      
+      if (last_activity.commit_message) { github_activity.append(`with the message: <i> ${last_activity.commit_message}</i>`)}
 
       $(".preloader-jquery-hook").remove();
 
