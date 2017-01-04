@@ -58,7 +58,7 @@ class GitHub():
             return pickle.loads(cache.get("github_last_activity"))
         else:
             # Get new and render
-            event = self.g.get_user("TomIsPrettyCool").get_public_events()[3] # Get last activity
+            event = self.g.get_user("TomIsPrettyCool").get_public_events()[0] # Get last activity
 
             # Check its something we know how to deal with, panic if isnt
             if event.type == "PushEvent":
