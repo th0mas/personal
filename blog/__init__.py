@@ -5,10 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
+from raven.contrib.flask import Sentry
 
 # Initialize App
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_APP_SECRET_KEY")
+
+# Initialize Sentry
+sentry = Sentry(app)
 
 #Initialize database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
