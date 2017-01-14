@@ -15,4 +15,4 @@ def view_post(id):
     if not post:
         return abort(404)
 
-    return post.content
+    return render_template("/view/view_post.html", post=post)
