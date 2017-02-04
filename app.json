@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dokku": {
+    "flynn": {
       "postdeploy": "flask db upgrade",
     },
   },
