@@ -12,7 +12,7 @@ def github_api_endpoint(api_path):
     processor = GitHub(api_path, request.args)
 
     # Check route is valid
-    if processor.valid_api_route():
+    if processor.is_valid_api_route:
         # Return the result, formatted as JSON
         return jsonify(processor.get_result())
     else:

@@ -10,6 +10,10 @@ class GitHub():
     Pull specific data down from the Github API
     Designed to be extendable
     """
+
+    # Declare routes able to visit
+    VALID_ROUTES = ["get_recent_repos", "last_activity"]
+
     def __init__(self, path, args):
         self.g = Github(user_agent="TomIsPrettyCool",
                         login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
@@ -19,11 +23,9 @@ class GitHub():
         if args:
             self.args = args
 
-    def valid_api_route(self):
-        """
-        Check the API route is valid/Make sure theres a function for it
-        """
-        return hasattr(self, self.route[0])
+    @property
+    def is_valid_api_route(self):
+        return self.route[0] in self.VALID_ROUTES
 
     def get_result(self):
         """
@@ -63,21 +65,21 @@ class GitHub():
             # Check its something we know how to deal with, panic if isnt
             if event.type == "PushEvent":
                 commit_message = event.payload["commits"][0]["message"]
-                    
-                    
+
+
                 response = {"activity": "pushing to the repo",
                             "repo": {"url": event.repo.html_url, "name": event.repo.name},
                             "time": self._get_slang_time(event.created_at),
                             "commit_message": commit_message}
-            
+
             else:
                 response = {"activity": "doing something I haven't coded into this API yet",
                             "repo": {"url": "", "name": ""},
                             "time": self._get_slang_time(event.created_at),
                             "commit_message": ""}
-                            
-        # Cache result for 60 seconds and return                    
-        cache.set("github_last_activity", pickle.dumps(response)) 
+
+        # Cache result for 60 seconds and return
+        cache.set("github_last_activity", pickle.dumps(response))
         cache.expire("github_last_activity", 60)
         return response
 
