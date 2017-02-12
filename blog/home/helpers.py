@@ -1,6 +1,6 @@
 import requests
-from flask import request
-from blog import app, cache, flash
+from flask import request, flash
+from blog import app, cache
 
 def contact_form_send_email(content):
     """
