@@ -17,7 +17,6 @@ def home():
     # Check the form is valid
     if contactform.validate_on_submit():
         contact_form_send_email(contactform)
-        flash("Thanks! Your message has been recieved")
         return redirect('/')
 
     # Return the home page
