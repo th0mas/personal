@@ -14,6 +14,9 @@ def contact_form_send_email(content):
     """
     remote_ip = request.remote_addr
     if cache.get(remote_ip) == "cached!":
+        flash("Sorry! To prevent spam, sending from your IP has been disabled for a while. Sorry about this.")
+
+    else:
         # To prevent spam we ignore this and return an error
         email_data = {
             "from": content.email.data,
@@ -30,7 +33,3 @@ def contact_form_send_email(content):
         cache.set(remote_ip, "cached!")
         cache.expire(remote_ip, 600)
         flash("Thanks your message has been recieved")
-
-    else:
-        flash("Whoops! To prevent spam, sending from this IP has been disabled for while. " +
-            "Sorry about that")

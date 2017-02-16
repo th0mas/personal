@@ -82,6 +82,10 @@ class BasicTestCase(BaseTestCase):
     def test_error_404(self):
         result = self.app.get('/pagethatdoesntexist/')
         self.assertEqual(result.status_code, 404)
+    
+    def test_api_error_404(self):
+        result = self.app.get('/api/v1/github/doesnotexist/')
+        self.assertEqual(result.status_code, 404)
 
 class LoggedInTestCase(BaseTestCase):
     def setUp(self):
