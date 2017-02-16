@@ -15,6 +15,11 @@ class GitHub():
     VALID_ROUTES = ["get_recent_repos", "last_activity"]
 
     def __init__(self, path, args):
+        """
+        Sets up the API object.
+        path: The URL path
+        args: Request args
+        """
         self.g = Github(user_agent="TomIsPrettyCool",
                         login_or_token=app.config["GITHUB_ACCESS_TOKEN"])
         self.path = path
