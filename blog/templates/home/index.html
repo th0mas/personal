@@ -13,7 +13,7 @@
         <p>
           Enjoys Python. Grits teeth and hopes with jQuery.
           Hopefully I will find time to write and update the blog and this website.
-          This website is designed to be my testbed for learning new things, so is rediculously
+          This website is designed to be my testbed for learning new things, so is ridiculously
           over-engineered and has so many things (like the parallax for example) that probaly
           dont make a difference but are just nice to have.
         </p>
@@ -57,7 +57,7 @@
       <div class="col s12 l6">
         <div class="card">
         <div class="card-content">
-        <span class="card-title">My Blog</span>  
+        <span class="card-title">My Blog</span>
         <h4 style="font-weight:300;font-style:italic;"><a href="{{ url_for('blog.view_post', id=post.id) }}">#{{ post.id }}: {{ post.title }}</a></h4>
         <div class="">
           {{ post.content[:1000]| safe }}...<a href="{{ url_for('blog.view_post', id=post.id) }}">(Read More)</a>
@@ -102,8 +102,8 @@
           </form>
         </div>
       </div>
-    </div>  
-    </div>  
+    </div>
+    </div>
     </div>
     </div>
   </div>
@@ -122,17 +122,17 @@ $(function (){
     "json")
 
   ).then(function() {
-      
+
       for (item in recent_repos ){
         $(".collection").append("<a href=" + recent_repos[item].url + " class='black-text card-item collection-item'>" + recent_repos[item].name + "</a>");
       }
 
-      //$(".github-activity").append(last_activity.time + "I was" + last_activity.activity + "<a href='" + last_activity.repo.url + "'> " + last_activity.repo.name + 
+      //$(".github-activity").append(last_activity.time + "I was" + last_activity.activity + "<a href='" + last_activity.repo.url + "'> " + last_activity.repo.name +
         //"</a> with the message: <i>" + last_activity.commit_message + "</i>");
       github_activity = $(".github-activity");
 
       github_activity.append(` ${last_activity.time} I was ${last_activity.activity} <a href='${last_activity.repo.url}'> ${last_activity.repo.name} </a>`);
-      
+
       if (last_activity.commit_message) { github_activity.append(`with the message: <i> ${last_activity.commit_message}</i>`)}
 
       $(".preloader-jquery-hook").remove();
