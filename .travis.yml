@@ -5,7 +5,7 @@ services:
 - postgres
 - redis
 install: pip install -r requirements.txt
-script: coverage run --omit "*.html" --source blog site_tests.py
+script: coverage run --omit "*.html" --source blog test_site.py
 after_success:
 - coveralls
 - ssh-keyscan -H ssh.tomhaines.xyz >> ~/.ssh/known_hosts
